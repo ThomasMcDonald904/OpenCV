@@ -1,5 +1,5 @@
-#Video
 import cv2
+
 frameWidth = 640
 frameHeight = 480
 video = cv2.VideoCapture("Resources/coffee.mp4")
