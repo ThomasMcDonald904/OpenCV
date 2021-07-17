@@ -11,8 +11,24 @@ def getContours(img):
             peri = cv2.arcLength(contour, True)
             approx = cv2.approxPolyDP(contour, 0.02*peri, True)
             print(len(approx))
+            obj_corners = len(approx)
+            x, y, w, h = cv2.boundingRect(approx)
 
+            if obj_corners == 3: 
+                object_type = "Triangle"
+            elif obj_corners == 4:
+                aspect_ratio = w/float(h)
+                if aspect_ratio > 0.95 and aspect_ratio < 1.05:
+                    object_type = "Square"
+                else:
+                    object_type = "Rectangle"
+            elif obj_corners > 4:
+                object_type = "Circle"
+            else:
+                object_type = "None"
 
+            cv2.rectangle(img_contour, (x,y), (x+w,y+h), (0,255, 0), 3)
+            cv2.putText(img_contour, object_type, (x-10, y), cv2.FONT_HERSHEY_TRIPLEX, 0.5, (0, 0, 0), 2)
 img = cv2.imread("Resources/shapes.png")
 img_contour = img.copy()
 
